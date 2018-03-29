@@ -2,10 +2,12 @@ package com.software2.software.features.home
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
@@ -13,7 +15,7 @@ import com.github.vivchar.rendererrecyclerviewadapter.RendererRecyclerViewAdapte
 import com.github.vivchar.rendererrecyclerviewadapter.binder.ViewBinder
 import com.software2.software.R
 import com.software2.software.databinding.ActivityHomeBinding
-import com.software2.software.features.index.MainViewModel
+import com.software2.software.features.index.IndexActivity
 import com.software2.software.models.Item
 
 /**
@@ -52,10 +54,15 @@ class HomeActivity : AppCompatActivity() {
         adapter = RendererRecyclerViewAdapter()
         binding.homeList.layoutManager = LinearLayoutManager(this)
         adapter.registerRenderer(ViewBinder<Item>(R.layout.item_main, Item::class.java,
-                this, ViewBinder.Binder { model, finder, payloads ->
+                this, ViewBinder.Binder { model, finder, _ ->
             finder.find<TextView>(R.id.item_name, {it.text = model.title})
             finder.find<ImageView>(R.id.item_image, { Glide.with(this)
                     .load(model.url).into(it)})
+            finder.setOnClickListener {
+                val intent = Intent(this, IndexActivity::class.java)
+                intent.putExtra("item", model)
+                startActivity(intent)
+            }
         }))
         binding.homeList.adapter = adapter
     }

@@ -20,5 +20,4 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             images.value = it
         }, Consumer {  })
     }
-
 }

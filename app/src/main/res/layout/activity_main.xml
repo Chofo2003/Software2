@@ -9,14 +9,14 @@
 
         <variable
             name="mainViewModel"
-            type="com.software2.software.features.index.MainViewModel" />
+            type="com.software2.software.features.index.IndexViewModel" />
 
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.software2.software.features.index.MainActivity">
+        tools:context="com.software2.software.features.index.IndexActivity">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/main_toolbar"
