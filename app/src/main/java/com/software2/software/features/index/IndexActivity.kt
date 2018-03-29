@@ -2,6 +2,7 @@ package com.software2.software.features.index
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +13,7 @@ import com.github.vivchar.rendererrecyclerviewadapter.RendererRecyclerViewAdapte
 import com.github.vivchar.rendererrecyclerviewadapter.binder.ViewBinder
 import com.software2.software.R
 import com.software2.software.databinding.ActivityMainBinding
+import com.software2.software.features.show.ShowActivity
 import com.software2.software.models.*
 
 class IndexActivity : AppCompatActivity() {
@@ -86,6 +88,7 @@ class IndexActivity : AppCompatActivity() {
                 adapter.registerRenderer(ViewBinder<Proveedor>(R.layout.item_index, Proveedor::class.java,
                         this, ViewBinder.Binder { model, finder, _ ->
                     finder.find<TextView>(R.id.title_text, { it.text = model.nombre })
+                    finder.setOnClickListener { startActivity(Intent(this, ShowActivity::class.java)) }
                 }))
             }
             "Productos" -> {

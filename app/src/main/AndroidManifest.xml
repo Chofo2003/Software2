@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".features.index.IndexActivity" />
+        <activity android:name=".features.show.ShowActivity" />
     </application>
 
 </manifest>
