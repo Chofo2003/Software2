@@ -3,6 +3,7 @@ package com.software2.software.features.index
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
+import android.util.Log
 import com.software2.software.models.Categoria
 import com.software2.software.models.Compra
 import com.software2.software.models.Producto
@@ -28,7 +29,14 @@ class IndexViewModel(application: Application) : AndroidViewModel(application) {
         }, Consumer {  })
     }
 
-    fun getCategorias(){}
+    fun getCategorias(){
+        repository.getCategory(Consumer {
+            Log.d("categorias", it.toString())
+            categorias.value = it
+        }, Consumer {
+            Log.d("error", it.localizedMessage)
+        })
+    }
 
     fun getCompras() {}
 

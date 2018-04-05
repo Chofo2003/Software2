@@ -1,8 +1,14 @@
 package com.software2.software.repository.sources
 
+import android.util.Log
+import com.androidnetworking.error.ANError
+import com.androidnetworking.interfaces.StringRequestListener
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.rx2androidnetworking.Rx2AndroidNetworking
+import com.software2.software.models.Proveedor
 import io.reactivex.Observable
+import org.json.JSONObject
 
 /**
  * Created by chofo2003 on 26/03/18.
@@ -37,5 +43,14 @@ class FirebaseSource() {
 
     fun getItemImages(): Observable<JsonObject> {
         return Rx2AndroidNetworking.get(ITEM_IMAGES).build().getObjectObservable(JsonObject::class.java)
+    }
+
+    fun updateProvider(id: String, body: JSONObject): Observable<JsonObject> {
+        return Rx2AndroidNetworking.put(PROVIDER_ONE)
+                .addPathParameter("id", id)
+                .addHeaders("Content-Type", "application/json")
+                .addJSONObjectBody(body)
+                .build()
+                .getObjectObservable(JsonObject::class.java)
     }
 }

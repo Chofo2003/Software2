@@ -1,5 +1,9 @@
 package com.software2.software.repository
 
+import android.util.Log
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import com.software2.software.models.Categoria
 import com.software2.software.models.Compra
 import com.software2.software.models.Producto
@@ -8,6 +12,8 @@ import com.software2.software.repository.sources.FirebaseSource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
+import org.json.JSONObject
+import java.security.Provider
 
 /**
  * Created by chofo2003 on 26/03/18.
@@ -24,19 +30,19 @@ class Repository {
     }
 
     fun getProduct(observer: Consumer<MutableList<Producto>>, error: Consumer<Throwable>) {
-        firebaseSource.getAllProviders().map { Producto.fromMultipleJson(it) }
+        firebaseSource.getAllProducts().map { Producto.fromMultipleJson(it) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer, error)
     }
     fun getCategory(observer: Consumer<MutableList<Categoria>>, error: Consumer<Throwable>) {
-        firebaseSource.getAllProviders().map { Categoria.fromMultipleJson(it) }
+        firebaseSource.getAllCategories().map { Categoria.fromMultipleJson(it) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer, error)
     }
     fun getPurchase(observer: Consumer<MutableList<Compra>>, error: Consumer<Throwable>) {
-        firebaseSource.getAllProviders().map { Compra.fromMultipleJson(it) }
+        firebaseSource.getAllPurchases().map { Compra.fromMultipleJson(it) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer, error)
@@ -53,5 +59,14 @@ class Repository {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer, error)
+    }
+
+    fun updateProvider(provider: Proveedor, observer: Consumer<JsonObject>,
+                       error: Consumer<Throwable>) {
+        firebaseSource.updateProvider(provider.id, JSONObject(Gson().toJson(provider)))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer, error)
+
     }
 }

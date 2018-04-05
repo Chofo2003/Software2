@@ -3,11 +3,12 @@ package com.software2.software.models
 import com.github.vivchar.rendererrecyclerviewadapter.ViewModel
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import java.io.Serializable
 
 /**
  * Created by chofo2003 on 26/03/18.
  */
-data class Proveedor(var id: String, var nombre: String, var descripcion: String) : ViewModel {
+data class Proveedor(var id: String, var name: String, var description: String) : ViewModel, Serializable{
     constructor() : this("", "", "")
 
     companion object {

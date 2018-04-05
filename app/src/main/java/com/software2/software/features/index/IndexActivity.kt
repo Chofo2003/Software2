@@ -15,6 +15,7 @@ import com.software2.software.R
 import com.software2.software.databinding.ActivityMainBinding
 import com.software2.software.features.show.ShowActivity
 import com.software2.software.models.*
+import java.io.Serializable
 
 class IndexActivity : AppCompatActivity() {
 
@@ -37,12 +38,14 @@ class IndexActivity : AppCompatActivity() {
 
     private fun setupObservers() {
         when (item.title) {
-            "Categoria" -> {
+            "Categorias" -> {
                 getViewModel().categorias.observe(this, Observer {
+                    Log.d("Probando", "Entre aqui")
                     adapter.setItems(it!!)
                     adapter.notifyDataSetChanged()
                 })
-                getViewModel().categorias.value?.let {} ?: run { getViewModel().getCategorias() }
+                getViewModel().categorias.value?.let {} ?: run {
+                    getViewModel().getCategorias() }
             }
             "Compras" -> {
                 getViewModel().compras.observe(this, Observer {
@@ -72,10 +75,13 @@ class IndexActivity : AppCompatActivity() {
         binding.mainList.layoutManager = LinearLayoutManager(this)
         adapter = RendererRecyclerViewAdapter()
         when (item.title) {
-            "Categoria" -> {
+            "Categorias" -> {
                 adapter.registerRenderer(ViewBinder<Categoria>(R.layout.item_index, Categoria::class.java,
                         this, ViewBinder.Binder { model, finder, _ ->
                     finder.find<TextView>(R.id.title_text, { it.text = model.nombre })
+                    finder.setOnClickListener {
+                        startShowActivity(model)
+                    }
                 }))
             }
             "Compras" -> {
@@ -87,8 +93,10 @@ class IndexActivity : AppCompatActivity() {
             "Proveedores" -> {
                 adapter.registerRenderer(ViewBinder<Proveedor>(R.layout.item_index, Proveedor::class.java,
                         this, ViewBinder.Binder { model, finder, _ ->
-                    finder.find<TextView>(R.id.title_text, { it.text = model.nombre })
-                    finder.setOnClickListener { startActivity(Intent(this, ShowActivity::class.java)) }
+                    finder.find<TextView>(R.id.title_text, { it.text = model.name })
+                    finder.setOnClickListener {
+                        startShowActivity(model)
+                    }
                 }))
             }
             "Productos" -> {
@@ -99,5 +107,11 @@ class IndexActivity : AppCompatActivity() {
             }
         }
         binding.mainList.adapter = adapter
+    }
+
+    private fun startShowActivity(any: Serializable) {
+        val intent = Intent(this, ShowActivity::class.java)
+        intent.putExtra("item", any)
+        startActivity(intent)
     }
 }
