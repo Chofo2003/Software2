@@ -8,7 +8,7 @@ import java.io.Serializable
 /**
  * Created by chofo2003 on 26/03/18.
  */
-data class Categoria(var id: String, var nombre: String, var descripcion: String) : ViewModel, Serializable {
+data class Categoria(var id: String, var name: String, var description: String) : ViewModel, Serializable {
     constructor() : this("", "", "")
 
     companion object {
@@ -22,9 +22,9 @@ data class Categoria(var id: String, var nombre: String, var descripcion: String
 
         private fun fromJson(json: JsonElement): Categoria {
             val id = json.asJsonObject.get("id").asString
-            val nombre = json.asJsonObject.get("name").asString
-            val descripcion = json.asJsonObject.get("description").asString
-            return Categoria(id, nombre, descripcion)
+            val name = json.asJsonObject.get("name").asString
+            val description = json.asJsonObject.get("description").asString
+            return Categoria(id, name, description)
         }
     }
 }

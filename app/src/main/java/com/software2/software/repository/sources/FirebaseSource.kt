@@ -22,6 +22,8 @@ class FirebaseSource() {
         var PURCHASES = "$BASE_URL/purchases.json"
         var CATEGORIES = "$BASE_URL/categories.json"
         var PROVIDER_ONE = "$BASE_URL/providers/{id}.json"
+        var PRODUCT_ONE = "$BASE_URL/products/{id}.json"
+        var CATEGORY_ONE = "$BASE_URL/categories/{id}.json"
         var ITEM_IMAGES = "$BASE_URL/images.json"
     }
 
@@ -47,6 +49,24 @@ class FirebaseSource() {
 
     fun updateProvider(id: String, body: JSONObject): Observable<JsonObject> {
         return Rx2AndroidNetworking.put(PROVIDER_ONE)
+                .addPathParameter("id", id)
+                .addHeaders("Content-Type", "application/json")
+                .addJSONObjectBody(body)
+                .build()
+                .getObjectObservable(JsonObject::class.java)
+    }
+
+    fun updateCategory(id: String, body: JSONObject): Observable<JsonObject> {
+        return Rx2AndroidNetworking.put(CATEGORY_ONE)
+                .addPathParameter("id", id)
+                .addHeaders("Content-Type", "application/json")
+                .addJSONObjectBody(body)
+                .build()
+                .getObjectObservable(JsonObject::class.java)
+    }
+
+    fun updateProduct(id: String, body: JSONObject): Observable<JsonObject> {
+        return Rx2AndroidNetworking.put(PRODUCT_ONE)
                 .addPathParameter("id", id)
                 .addHeaders("Content-Type", "application/json")
                 .addJSONObjectBody(body)

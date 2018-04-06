@@ -40,7 +40,6 @@ class IndexActivity : AppCompatActivity() {
         when (item.title) {
             "Categorias" -> {
                 getViewModel().categorias.observe(this, Observer {
-                    Log.d("Probando", "Entre aqui")
                     adapter.setItems(it!!)
                     adapter.notifyDataSetChanged()
                 })
@@ -78,7 +77,7 @@ class IndexActivity : AppCompatActivity() {
             "Categorias" -> {
                 adapter.registerRenderer(ViewBinder<Categoria>(R.layout.item_index, Categoria::class.java,
                         this, ViewBinder.Binder { model, finder, _ ->
-                    finder.find<TextView>(R.id.title_text, { it.text = model.nombre })
+                    finder.find<TextView>(R.id.title_text, { it.text = model.name })
                     finder.setOnClickListener {
                         startShowActivity(model)
                     }
@@ -102,7 +101,10 @@ class IndexActivity : AppCompatActivity() {
             "Productos" -> {
                 adapter.registerRenderer(ViewBinder<Producto>(R.layout.item_index, Producto::class.java,
                         this, ViewBinder.Binder { model, finder, _ ->
-                    finder.find<TextView>(R.id.title_text, { it.text = model.nombre })
+                    finder.find<TextView>(R.id.title_text, { it.text = model.name })
+                    finder.setOnClickListener {
+                        startShowActivity(model)
+                    }
                 }))
             }
         }

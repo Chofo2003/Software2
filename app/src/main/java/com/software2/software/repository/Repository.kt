@@ -69,4 +69,22 @@ class Repository {
                 .subscribe(observer, error)
 
     }
+
+    fun updateCategory(category: Categoria, observer: Consumer<JsonObject>,
+                       error: Consumer<Throwable>) {
+        firebaseSource.updateCategory(category.id, JSONObject(Gson().toJson(category)))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer, error)
+
+    }
+
+    fun updateProduct(product: Producto, observer: Consumer<JsonObject>,
+                       error: Consumer<Throwable>) {
+        firebaseSource.updateProduct(product.id, JSONObject(Gson().toJson(product)))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer, error)
+
+    }
 }

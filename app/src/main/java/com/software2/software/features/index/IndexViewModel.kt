@@ -31,16 +31,17 @@ class IndexViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getCategorias(){
         repository.getCategory(Consumer {
-            Log.d("categorias", it.toString())
             categorias.value = it
-        }, Consumer {
-            Log.d("error", it.localizedMessage)
-        })
+        }, Consumer { })
     }
 
     fun getCompras() {}
 
-    fun getProductos() {}
-
-
-}
+    fun getProductos() {
+        repository.getProduct(Consumer {
+            productos.value = it
+        }, Consumer {
+            Log.d("error", it.localizedMessage)
+        })
+    }
+    }

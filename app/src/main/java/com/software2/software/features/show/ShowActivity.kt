@@ -8,11 +8,10 @@ import android.widget.Toast
 import com.google.gson.Gson
 import com.software2.software.R
 import com.software2.software.models.Categoria
+import com.software2.software.models.Producto
 import com.software2.software.models.Proveedor
 import com.software2.software.repository.Repository
-import com.thejuki.kformmaster.helper.FormBuildHelper
-import com.thejuki.kformmaster.helper.form
-import com.thejuki.kformmaster.helper.text
+import com.thejuki.kformmaster.helper.*
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_show.*
 import java.io.Serializable
@@ -45,7 +44,10 @@ class ShowActivity : AppCompatActivity() {
                 updateProvider()
             }
             is Categoria -> {
-//                updateCategory()
+                updateCategory()
+            }
+            is Producto -> {
+                updateProduct()
             }
         }
     }
@@ -58,25 +60,55 @@ class ShowActivity : AppCompatActivity() {
             is Categoria -> {
                 setupCategory()
             }
+            is Producto -> {
+                setupProduct()
+            }
         }
     }
 
-    fun setupCategory() {
-        val item = this.item as Categoria
+    fun setupProduct() {
+        val item = this.item as Producto
         supportActionBar!!.title = item.id
         formBuilder = form(this, show_form) {
             text {
                 title = "Nombre"
-                value = item.nombre
+                value = item.name
             }
             text {
                 title = "Descripción"
-                value = item.descripcion
+                value = item.description
+            }
+            number {
+                title = "Unidades"
+                value = item.unity
+            }
+            number {
+                title = "Categoria"
+                value = item.categoryId
+            }
+            number {
+                title = "Proveedor"
+                value = item.providerId
             }
         }
     }
 
     fun setupProvider() {
+        val item = this.item as Proveedor
+        supportActionBar!!.title = item.id
+        formBuilder = form(this, show_form) {
+            text {
+                title = "Nombre"
+                value = item.name
+            }
+            text {
+                title = "Descripción"
+                value = item.description
+            }
+        }
+    }
+
+    fun setupCategory() {
         val item = this.item as Proveedor
         supportActionBar!!.title = item.id
         formBuilder = form(this, show_form) {
@@ -97,6 +129,29 @@ class ShowActivity : AppCompatActivity() {
         val description = formBuilder.getElementAtIndex(1)!!.value.toString()
         val newProvider = Proveedor(item.id, name, description)
         Repository().updateProvider(newProvider, Consumer {
+            Toast.makeText(this, "Se ha actualizado", Toast.LENGTH_SHORT).show()
+        }, Consumer {})
+    }
+
+    fun updateCategory() {
+        val item = this.item as Categoria
+        val name = formBuilder.getElementAtIndex(0)!!.value.toString()
+        val description = formBuilder.getElementAtIndex(1)!!.value.toString()
+        val newCategory = Categoria(item.id, name, description)
+        Repository().updateCategory(newCategory, Consumer {
+            Toast.makeText(this, "Se ha actualizado", Toast.LENGTH_SHORT).show()
+        }, Consumer {})
+    }
+
+    fun updateProduct() {
+        val item = this.item as Producto
+        val name = formBuilder.getElementAtIndex(0)!!.value.toString()
+        val description = formBuilder.getElementAtIndex(1)!!.value.toString()
+        val unity = formBuilder.getElementAtIndex(2)!!.value.toString()
+        val categoryId = formBuilder.getElementAtIndex(3)!!.value.toString()
+        val providerId = formBuilder.getElementAtIndex(4)!!.value.toString()
+        val newProduct = Producto(item.id, name, description, unity, categoryId, providerId)
+        Repository().updateProduct(newProduct, Consumer {
             Toast.makeText(this, "Se ha actualizado", Toast.LENGTH_SHORT).show()
         }, Consumer {})
     }

@@ -3,12 +3,13 @@ package com.software2.software.models
 import com.github.vivchar.rendererrecyclerviewadapter.ViewModel
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import java.io.Serializable
 
 /**
  * Created by chofo2003 on 26/03/18.
  */
-data class Producto(var id: String, var nombre: String, var descripcion: String, var unidad: String,
-                    var categoriaId: String, var proveedorId: String) : ViewModel {
+data class Producto(var id: String, var name: String, var description: String, var unity: String,
+                    var categoryId: String, var providerId: String) : ViewModel, Serializable {
     constructor() : this("", "", "", "", "", "")
 
     companion object {
@@ -22,12 +23,12 @@ data class Producto(var id: String, var nombre: String, var descripcion: String,
 
         private fun fromJson(json: JsonElement): Producto {
             val id = json.asJsonObject.get("id").asString
-            val nombre = json.asJsonObject.get("nombre").asString
-            val descripcion = json.asJsonObject.get("descripcion").asString
-            val unidad = json.asJsonObject.get("unidad").asString
-            val categoriaId = json.asJsonObject.get("categoriaId").asString
-            val proveedorId = json.asJsonObject.get("proveedorIr").asString
-            return Producto(id, nombre, descripcion, unidad, categoriaId, proveedorId)
+            val name = json.asJsonObject.get("name").asString
+            val description = json.asJsonObject.get("description").asString
+            val unity = json.asJsonObject.get("unity").asString
+            val categoryId = json.asJsonObject.get("categoryId").asString
+            val providerId = json.asJsonObject.get("providerId").asString
+            return Producto(id, name, description, unity, categoryId, providerId)
         }
     }
 
