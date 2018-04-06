@@ -1,5 +1,6 @@
 package com.software2.software.features.show
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -7,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import com.google.gson.Gson
 import com.software2.software.R
+import com.software2.software.features.home.HomeActivity
 import com.software2.software.models.Categoria
 import com.software2.software.models.Producto
 import com.software2.software.models.Proveedor
@@ -33,9 +35,32 @@ class ShowActivity : AppCompatActivity() {
             setupUpdate()
         }
         delete_button.setOnClickListener {
-            onBackPressed()
+            setupDelete()
         }
         setupForm()
+    }
+
+    fun setupDelete() {
+        when (item) {
+            is Proveedor -> {
+                deleteProvider()
+                startActivity(Intent(this, HomeActivity::class.java))
+                this.finish()
+                Toast.makeText(this, "Se ha borrado", Toast.LENGTH_SHORT).show()
+            }
+            is Categoria -> {
+                deleteCategory()
+                startActivity(Intent(this, HomeActivity::class.java))
+                this.finish()
+                Toast.makeText(this, "Se ha borrado", Toast.LENGTH_SHORT).show()
+            }
+            is Producto -> {
+                deleteProduct()
+                startActivity(Intent(this, HomeActivity::class.java))
+                this.finish()
+                Toast.makeText(this, "Se ha borrado", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     fun setupUpdate() {
@@ -109,7 +134,7 @@ class ShowActivity : AppCompatActivity() {
     }
 
     fun setupCategory() {
-        val item = this.item as Proveedor
+        val item = this.item as Categoria
         supportActionBar!!.title = item.id
         formBuilder = form(this, show_form) {
             text {
@@ -153,6 +178,39 @@ class ShowActivity : AppCompatActivity() {
         val newProduct = Producto(item.id, name, description, unity, categoryId, providerId)
         Repository().updateProduct(newProduct, Consumer {
             Toast.makeText(this, "Se ha actualizado", Toast.LENGTH_SHORT).show()
+        }, Consumer {})
+    }
+
+    fun deleteProvider() {
+        val item = this.item as Proveedor
+        val name = formBuilder.getElementAtIndex(0)!!.value.toString()
+        val description = formBuilder.getElementAtIndex(1)!!.value.toString()
+        val provider = Proveedor(item.id, name, description)
+        Repository().deleteProvider(provider, Consumer {
+            Toast.makeText(this, "Se ha borrado", Toast.LENGTH_SHORT).show()
+        }, Consumer {})
+    }
+
+    fun deleteProduct() {
+        val item = this.item as Producto
+        val name = formBuilder.getElementAtIndex(0)!!.value.toString()
+        val description = formBuilder.getElementAtIndex(1)!!.value.toString()
+        val unity = formBuilder.getElementAtIndex(2)!!.value.toString()
+        val categoryId = formBuilder.getElementAtIndex(3)!!.value.toString()
+        val providerId = formBuilder.getElementAtIndex(4)!!.value.toString()
+        val product = Producto(item.id, name, description, unity, categoryId, providerId)
+        Repository().deleteProduct(product, Consumer {
+            Toast.makeText(this, "Se ha borrado", Toast.LENGTH_SHORT).show()
+        }, Consumer {})
+    }
+
+    fun deleteCategory() {
+        val item = this.item as Categoria
+        val name = formBuilder.getElementAtIndex(0)!!.value.toString()
+        val description = formBuilder.getElementAtIndex(1)!!.value.toString()
+        val category = Categoria(item.id, name, description)
+        Repository().deleteCategory(category, Consumer {
+            Toast.makeText(this, "Se ha borrado", Toast.LENGTH_SHORT).show()
         }, Consumer {})
     }
 }

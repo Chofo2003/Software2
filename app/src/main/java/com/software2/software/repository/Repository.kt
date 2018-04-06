@@ -87,4 +87,27 @@ class Repository {
                 .subscribe(observer, error)
 
     }
+
+    fun deleteProvider(provider: Proveedor, observer: Consumer<JsonObject>,
+                       error: Consumer<Throwable>) {
+        firebaseSource.deleteProvider(provider.id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer, error)
+    }
+
+    fun deleteCategory(category: Categoria, observer: Consumer<JsonObject>,
+                       error: Consumer<Throwable>) {
+        firebaseSource.deleteCategory(category.id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer, error)
+    }
+    fun deleteProduct(product: Producto, observer: Consumer<JsonObject>,
+                       error: Consumer<Throwable>) {
+        firebaseSource.deleteProduct(product.id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer, error)
+    }
 }

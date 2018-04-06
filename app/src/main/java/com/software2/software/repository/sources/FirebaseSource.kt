@@ -73,4 +73,25 @@ class FirebaseSource() {
                 .build()
                 .getObjectObservable(JsonObject::class.java)
     }
+
+    fun deleteProvider(id: String): Observable<JsonObject> {
+        return Rx2AndroidNetworking.delete(PROVIDER_ONE)
+                .addPathParameter("id", id)
+                .build()
+                .getObjectObservable(JsonObject::class.java)
+    }
+
+    fun deleteProduct(id: String): Observable<JsonObject> {
+        return Rx2AndroidNetworking.delete(PRODUCT_ONE)
+                .addPathParameter("id", id)
+                .build()
+                .getObjectObservable(JsonObject::class.java)
+    }
+
+    fun deleteCategory(id: String): Observable<JsonObject> {
+        return Rx2AndroidNetworking.delete(CATEGORY_ONE)
+                .addPathParameter("id", id)
+                .build()
+                .getObjectObservable(JsonObject::class.java)
+    }
 }
