@@ -27,4 +27,8 @@ data class Categoria(var id: String, var name: String, var description: String) 
             return Categoria(id, name, description)
         }
     }
+
+    override fun toString(): String {
+        return this.name
+    }
 }

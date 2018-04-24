@@ -25,10 +25,15 @@ class FirebaseSource() {
         var PRODUCT_ONE = "$BASE_URL/products/{id}.json"
         var CATEGORY_ONE = "$BASE_URL/categories/{id}.json"
         var ITEM_IMAGES = "$BASE_URL/images.json"
+
+        private val BASE = "http://emilio1991.pythonanywhere.com/api"
+        var PROVIDER_API = "$BASE/proveedores"
+        var PROVIDER_ONE_API = "$BASE/proveedores/{id}"
+
     }
 
     fun getAllProviders(): Observable<JsonObject> {
-        return Rx2AndroidNetworking.get(PROVIDER).build().getObjectObservable(JsonObject::class.java)
+        return Rx2AndroidNetworking.get(PROVIDER_API).build().getObjectObservable(JsonObject::class.java)
     }
 
     fun getAllProducts(): Observable<JsonObject> {
@@ -48,9 +53,17 @@ class FirebaseSource() {
     }
 
     fun updateProvider(id: String, body: JSONObject): Observable<JsonObject> {
-        return Rx2AndroidNetworking.put(PROVIDER_ONE)
+        return Rx2AndroidNetworking.put(PROVIDER_ONE_API)
                 .addPathParameter("id", id)
                 .addHeaders("Content-Type", "application/json")
+                .addJSONObjectBody(body)
+                .build()
+                .getObjectObservable(JsonObject::class.java)
+    }
+
+    fun createProvider(body: JSONObject): Observable<JsonObject> {
+        return Rx2AndroidNetworking.post(PROVIDER_API)
+                .addHeaders("Content=Type", "application/json")
                 .addJSONObjectBody(body)
                 .build()
                 .getObjectObservable(JsonObject::class.java)

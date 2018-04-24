@@ -13,6 +13,7 @@ import com.github.vivchar.rendererrecyclerviewadapter.RendererRecyclerViewAdapte
 import com.github.vivchar.rendererrecyclerviewadapter.binder.ViewBinder
 import com.software2.software.R
 import com.software2.software.databinding.ActivityMainBinding
+import com.software2.software.features.create.CreateActivity
 import com.software2.software.features.show.ShowActivity
 import com.software2.software.models.*
 import java.io.Serializable
@@ -32,6 +33,25 @@ class IndexActivity : AppCompatActivity() {
         item = intent.getSerializableExtra("item") as Item
         setupObservers()
         setupList()
+        binding.newResourceButton.setOnClickListener {
+            val intent = Intent(this, CreateActivity::class.java)
+            when (item.title) {
+                "Categorias" -> {
+                    intent.putExtra("type", CreateActivity.CATEGORY)
+                }
+                "Compras" -> {
+                    intent.putExtra("type", CreateActivity.PURCHASE)
+                }
+                "Proveedores" -> {
+                    intent.putExtra("type", CreateActivity.PROVIDER)
+                }
+                "Productos" -> {
+                    intent.putExtra("type", CreateActivity.PRODUCT)
+                }
+
+            }
+            startActivity(intent)
+        }
     }
 
     private fun getViewModel() = binding.mainViewModel!!
@@ -92,7 +112,7 @@ class IndexActivity : AppCompatActivity() {
             "Proveedores" -> {
                 adapter.registerRenderer(ViewBinder<Proveedor>(R.layout.item_index, Proveedor::class.java,
                         this, ViewBinder.Binder { model, finder, _ ->
-                    finder.find<TextView>(R.id.title_text, { it.text = model.name })
+                    finder.find<TextView>(R.id.title_text, { it.text = model.nombre })
                     finder.setOnClickListener {
                         startShowActivity(model)
                     }

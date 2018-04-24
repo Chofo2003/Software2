@@ -124,11 +124,11 @@ class ShowActivity : AppCompatActivity() {
         formBuilder = form(this, show_form) {
             text {
                 title = "Nombre"
-                value = item.name
+                value = item.nombre
             }
             text {
                 title = "Descripción"
-                value = item.description
+                value = item.descripcion
             }
         }
     }
